@@ -3,6 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
+  - django-debug-toolbar=1.10.1=py_0
   - ca-certificates=2018.03.07=0
   - certifi=2018.10.15=py37_0
   - django=2.1.2=py37_0
@@ -22,6 +23,7 @@ dependencies:
   - readline=7.0=h1de35cc_5
   - setuptools=40.6.2=py37_0
   - sqlite=3.25.3=ha441bb4_0
+  - sqlparse=0.2.4=py37_0
   - tk=8.6.8=ha441bb4_0
   - wheel=0.32.3=py37_0
   - xz=5.2.4=h1de35cc_4
