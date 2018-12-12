@@ -1,5 +1,4 @@
 {% extends 'opac/base.html' %}
-{% load filters %}
 
 {% block meta_title %}検索結果{% endblock %}
 
@@ -25,8 +24,8 @@
           {% for book in books %}
           <tr>
             <td>{{ book.name }}</td>
-            <td>{{ book.authors.all|join_names:', ' }}</td>
-            <td>{{ book.translators.all|join_names:', ' }}</td>
+            <td>{{ book.author_names|join:', ' }}</td>
+            <td>{{ book.translator_names|join:', ' }}</td>
             <td>{{ book.publisher.name }}</td>
             <td>{{ book.publication_date|default_if_none:'' }}</td>
           </tr>
