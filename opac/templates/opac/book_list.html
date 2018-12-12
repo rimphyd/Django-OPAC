@@ -1,0 +1,40 @@
+{% extends 'opac/base.html' %}
+{% load filters %}
+
+{% block meta_title %}検索結果{% endblock %}
+
+{% block content %}
+      <p class="mb-0">該当件数：{{ paginator.count }}件</p>
+      <p style="font-size: 0.8rem;">({{ request.GET.words }})</p>
+
+      {% if is_paginated %}
+      {% include 'opac/paginations/pagination.html' %}
+      {% endif %}
+
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>書名</th>
+            <th>著者</th>
+            <th>訳者</th>
+            <th>出版者</th>
+            <th>出版年</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr>
+            <td>{{ book.name }}</td>
+            <td>{{ book.authors.all|join_names:', ' }}</td>
+            <td>{{ book.translators.all|join_names:', ' }}</td>
+            <td>{{ book.publisher.name }}</td>
+            <td>{{ book.publication_date|default_if_none:'' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if is_paginated %}
+      {% include 'opac/paginations/pagination.html' %}
+      {% endif %}
+{% endblock %}
