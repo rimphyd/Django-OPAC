@@ -73,4 +73,4 @@ class Book(TimeStampedModel):
                     Q(publisher__name__icontains=word)) \
                 .distinct()
             queryset = queryset.union(books)
-        return queryset.order_by('id')
+        return queryset.order_by('-publication_date')
