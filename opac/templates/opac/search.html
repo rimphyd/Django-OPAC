@@ -3,7 +3,7 @@
 {% block meta_title %}蔵書検索{% endblock %}
 
 {% block content %}
-      <form method="GET" action="/opac/book/" class="my-5">
+      <form method="GET" action="{% url 'opac:search' %}" class="my-5">
         <div class="form-group my-4">
           <input type="text" name="words" class="form-control" required>
         </div>
