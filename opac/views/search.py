@@ -1,7 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
 from django.views.generic import ListView
 
 from opac.models.masters import Book
@@ -11,21 +9,24 @@ class SearchView(ListView):
     context_object_name = 'books'
     paginate_by = 20
 
-    def search_words_not_found(self, request):
+    def render_search(self, request):
+        return render(request, 'opac/search.html')
+
+    def render_no_search_words(self, request):
         messsage = '検索語を入力してください。'
         messages.error(request, messsage, extra_tags='danger')
-        return HttpResponseRedirect(reverse('opac:search'))
+        return self.render_search(request)
 
-    def books_not_found(self, request):
+    def render_no_books(self, request):
         messsage = '該当する書籍が見つかりませんでした。'
         messages.warning(request, messsage)
-        return HttpResponseRedirect(reverse('opac:search'))
+        return self.render_search(request)
 
     def dispatch(self, request, *args, **kwargs):
         if 'words' not in request.GET:
-            return render(request, 'opac/search.html')
+            return self.render_search(request)
         if request.GET['words'].split() == []:
-            return self.search_words_not_found(request)
+            return self.render_no_search_words(request)
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -34,5 +35,5 @@ class SearchView(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if not context['books']:
-            return self.books_not_found(self.request)
+            return self.render_no_books(self.request)
         return super().render_to_response(context, **response_kwargs)
