@@ -36,4 +36,8 @@
       {% if is_paginated %}
       {% include 'opac/paginations/pagination.html' %}
       {% endif %}
+
+      <div class="mt-5">
+        <a href="{% url 'opac:search' %}">検索へ戻る</a>
+      </div>
 {% endblock %}
