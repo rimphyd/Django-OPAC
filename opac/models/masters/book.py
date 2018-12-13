@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator, MinValueValidator
 from django.db import models
+from django.db.models import Q
 
 from opac.models.abstracts import TimeStampedModel
 from opac.models.masters.publisher import Publisher
@@ -56,3 +57,17 @@ class Book(TimeStampedModel):
 
     def translator_names(self):
         return (t.name for t in self.translators.all())
+
+    @staticmethod
+    def search(words):
+        queryset = Book.objects.none()
+        for word in words:
+            books = Book.objects \
+                .filter(
+                    Q(name__icontains=word) |
+                    Q(authors__name__icontains=word) |
+                    Q(translators__name__icontains=word) |
+                    Q(publisher__name__icontains=word)) \
+                .distinct()
+            queryset = queryset.union(books)
+        return queryset.order_by('id')

@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView
@@ -30,17 +29,7 @@ class BookListView(ListView):
 
     def get_queryset(self):
         words = self.request.GET['words'].split()
-        queryset = Book.objects.none()
-        for word in words:
-            books = Book.objects \
-                .filter(
-                    Q(name__icontains=word) |
-                    Q(authors__name__icontains=word) |
-                    Q(translators__name__icontains=word) |
-                    Q(publisher__name__icontains=word)) \
-                .distinct()
-            queryset = queryset.union(books)
-        return queryset.order_by('id')
+        return Book.search(words)
 
     def render_to_response(self, context, **response_kwargs):
         if not context['books']:
