@@ -23,7 +23,7 @@
         <tbody>
           {% for book in books %}
           <tr>
-            <td><a href="{% url 'opac:book_detail' book.id %}">{{ book.name }}</a></td>
+            <td><a href="{% url 'opac:stock_list' book.id %}">{{ book.name }}</a></td>
             <td>{{ book.author_names|join:', ' }}</td>
             <td>{{ book.translator_names|join:', ' }}</td>
             <td>{{ book.publisher.name }}</td>
