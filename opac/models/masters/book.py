@@ -58,9 +58,6 @@ class Book(TimeStampedModel):
     def translator_names(self):
         return (t.name for t in self.translators.all())
 
-    def ordered_stocks(self):
-        return self.stocks.order_by('library__id')
-
     @staticmethod
     def search(words):
         queryset = Book.objects.none()
