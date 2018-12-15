@@ -39,12 +39,12 @@ class BookAdmin(admin.ModelAdmin):
 
     def get_authors(self, book):
         return None if not book.authors.exists() \
-          else ', '.join(book.author_names())
+          else ', '.join(a.name for a in book.authors.all())
     get_authors.short_description = '著者'
 
     def get_translators(self, book):
         return None if not book.translators.exists() \
-          else ', '.join(book.translator_names())
+          else ', '.join(t.name for t in book.translators.all())
     get_translators.short_description = '訳者'
 
     def get_publisher_name(self, book):

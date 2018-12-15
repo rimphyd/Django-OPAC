@@ -50,9 +50,3 @@ class Book(TimeStampedModel):
 
     def __str__(self):
         return self.name
-
-    def author_names(self):
-        return (a.name for a in self.authors.all())
-
-    def translator_names(self):
-        return (t.name for t in self.translators.all())

@@ -24,8 +24,24 @@
           {% for book in books %}
           <tr>
             <td><a href="{% url 'opac:stock_list' book.id %}">{{ book.name }}</a></td>
-            <td>{{ book.author_names|join:', ' }}</td>
-            <td>{{ book.translator_names|join:', ' }}</td>
+            <td>
+              {% for author in book.authors.all %}
+              {% if not forloop.last %}
+              {{ author.name }},
+              {% else %}
+              {{ author.name }}
+              {% endif %}
+              {% endfor %}
+            </td>
+            <td>
+              {% for translator in book.translators.all %}
+              {% if not forloop.last %}
+              {{ translator.name }},
+              {% else %}
+              {{ translator.name }}
+              {% endif %}
+              {% endfor %}
+            </td>
             <td>{{ book.publisher.name }}</td>
             <td>{{ book.publication_date|default_if_none:'' }}</td>
           </tr>
