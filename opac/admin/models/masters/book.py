@@ -38,13 +38,13 @@ class BookAdmin(admin.ModelAdmin):
     get_book_number.short_description = ' 書籍番号'
 
     def get_authors(self, book):
-        return None if not book.authors.exists() \
-          else ', '.join(a.name for a in book.authors.all())
+        return ', '.join(a.name for a in book.authors.all()) \
+            or None
     get_authors.short_description = '著者'
 
     def get_translators(self, book):
-        return None if not book.translators.exists() \
-          else ', '.join(t.name for t in book.translators.all())
+        return ', '.join(t.name for t in book.translators.all()) \
+            or None
     get_translators.short_description = '訳者'
 
     def get_publisher_name(self, book):

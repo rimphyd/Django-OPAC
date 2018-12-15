@@ -15,8 +15,8 @@ class AuthorAdmin(admin.ModelAdmin):
     get_author_number.short_description = '著者番号'
 
     def get_authed_books(self, author):
-        return None if not author.books.exists() \
-          else ', '.join(book.name for book in author.books.all()[:5])
+        return ', '.join(book.name for book in author.books.all()[:5]) \
+            or None
     get_authed_books.short_description = '著書 (5冊まで)'
 
 
