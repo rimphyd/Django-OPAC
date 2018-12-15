@@ -9,22 +9,22 @@ class SearchView(ListView):
     context_object_name = 'books'
     paginate_by = 20
 
-    def render_search(self, request):
-        return render(request, 'opac/search.html')
+    def render_index(self, request):
+        return render(request, 'opac/index.html')
 
     def render_no_search_words(self, request):
         messsage = '検索語を入力してください。'
         messages.error(request, messsage, extra_tags='danger')
-        return self.render_search(request)
+        return self.render_index(request)
 
     def render_no_books(self, request):
         messsage = '該当する書籍が見つかりませんでした。'
         messages.warning(request, messsage)
-        return self.render_search(request)
+        return self.render_index(request)
 
     def dispatch(self, request, *args, **kwargs):
         if 'words' not in request.GET:
-            return self.render_search(request)
+            return self.render_index(request)
         if request.GET['words'].split() == []:
             return self.render_no_search_words(request)
         return super().dispatch(request, *args, **kwargs)

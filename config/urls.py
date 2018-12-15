@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('opac/', include('opac.urls')),
+    path('', include('opac.urls')),
     path('admin/', admin.site.urls),
 ]
 
