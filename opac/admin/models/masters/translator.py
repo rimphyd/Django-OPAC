@@ -15,8 +15,8 @@ class TranslatorAdmin(admin.ModelAdmin):
     get_translator_number.short_description = '訳者番号'
 
     def get_translated_books(self, translator):
-        return None if not translator.books.exists() \
-          else ', '.join(book.name for book in translator.books.all()[:5])
+        return ', '.join(book.name for book in translator.books.all()[:5]) \
+            or None
     get_translated_books.short_description = '訳書 (5冊まで)'
 
 
