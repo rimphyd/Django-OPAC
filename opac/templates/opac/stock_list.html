@@ -42,8 +42,30 @@
         </caption>
         <tbody>
           <tr><th>書名</th><td>{{ book.name }}</td></tr>
-          <tr><th>著者</th><td>{{ book.author_names|join:', ' }}</td></tr>
-          <tr><th>訳者</th><td>{{ book.translator_names|join:', ' }}</td></tr>
+          <tr>
+            <th>著者</th>
+            <td>
+              {% for author in book.authors.all %}
+              {% if not forloop.last %}
+              {{ author.name }},
+              {% else %}
+              {{ author.name }}
+              {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          <tr>
+            <th>訳者</th>
+            <td>
+              {% for translator in book.translators.all %}
+              {% if not forloop.last %}
+              {{ translator.name }},
+              {% else %}
+              {{ translator.name }}
+              {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
           <tr><th>出版者</th><td>{{ book.publisher.name }}</td></tr>
           <tr><th>発行日</th><td>{{ book.publication_date|default_if_none:'' }}</td></tr>
           <tr><th>大きさ</th><td>{{ book.size|default_if_none:'' }}</td></tr>
