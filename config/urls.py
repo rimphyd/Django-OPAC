@@ -28,3 +28,7 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+admin.site.site_header = "Django-OPAC 管理サイト"
+admin.site.site_title = "Django-OPAC 管理サイト"
+admin.site.index_title = "管理ホーム"
