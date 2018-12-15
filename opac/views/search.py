@@ -34,6 +34,6 @@ class SearchView(ListView):
         return BookSearchQuery(words).query()
 
     def render_to_response(self, context, **response_kwargs):
-        if not context['books']:
+        if not self.object_list:
             return self.render_no_books(self.request)
         return super().render_to_response(context, **response_kwargs)
