@@ -7,8 +7,8 @@ from opac.models.masters.user import User
 
 class Reservation(TimeStampedModel):
     class Meta:
-        verbose_name = '取置予約'
-        verbose_name_plural = '取置予約'
+        verbose_name = '予約'
+        verbose_name_plural = '予約'
         unique_together = ('stock', 'user')
 
     stock = models.ForeignKey(

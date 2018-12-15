@@ -22,7 +22,7 @@ class BookAdmin(admin.ModelAdmin):
         'get_authors',
         'get_translators',
         'get_publisher_name',
-        'publication_date',
+        'issue_date',
         'size',
         'page',
         'isbn'

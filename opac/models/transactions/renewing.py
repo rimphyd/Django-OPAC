@@ -7,8 +7,8 @@ from opac.models.transactions.lending import Lending
 
 class Renewing(TimeStampedModel):
     class Meta:
-        verbose_name = '貸出延長'
-        verbose_name_plural = '貸出延長'
+        verbose_name = '延長'
+        verbose_name_plural = '延長'
 
     lending = models.OneToOneField(
         Lending,

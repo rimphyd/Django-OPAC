@@ -20,8 +20,8 @@ class Book(TimeStampedModel):
         related_name='books',
         on_delete=models.PROTECT
     )
-    publication_date = models.DateField(
-        '出版日',
+    issue_date = models.DateField(
+        '発行日',
         blank=True,
         null=True
     )

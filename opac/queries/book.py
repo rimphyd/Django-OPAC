@@ -18,7 +18,7 @@ class BookSearchQuery:
                     Q(publisher__name__icontains=word)) \
                 .distinct()
             queryset = queryset.union(books)
-        return queryset.order_by('-publication_date')
+        return queryset.order_by('-issue_date')
 
 
 class BookQuery:

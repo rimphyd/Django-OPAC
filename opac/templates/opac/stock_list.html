@@ -67,7 +67,7 @@
             </td>
           </tr>
           <tr><th>出版者</th><td>{{ book.publisher.name }}</td></tr>
-          <tr><th>発行日</th><td>{{ book.publication_date|default_if_none:'' }}</td></tr>
+          <tr><th>発行日</th><td>{{ book.issue_date|default_if_none:'' }}</td></tr>
           <tr><th>大きさ</th><td>{{ book.size|default_if_none:'' }}</td></tr>
           <tr><th>ページ</th><td>{{ book.page|default_if_none:'' }}</td></tr>
           <tr><th>ISBN</th><td>{{ book.isbn|default_if_none:'' }}</td></tr>

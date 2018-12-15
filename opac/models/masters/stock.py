@@ -18,7 +18,7 @@ class Stock(TimeStampedModel):
     )
     library = models.ForeignKey(
         Library,
-        verbose_name='配架先',
+        verbose_name='所蔵場所',
         related_name='stocks',
         on_delete=models.PROTECT
     )

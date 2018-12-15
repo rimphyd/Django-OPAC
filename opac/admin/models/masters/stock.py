@@ -47,7 +47,7 @@ class StockAdmin(admin.ModelAdmin):
     def get_library_name(self, stock):
         return stock.library.name
     get_library_name.admin_order_field = 'library__name'
-    get_library_name.short_description = '配架先'
+    get_library_name.short_description = '館名'
 
     def get_lending_actual_due_date(self, stock):
         return stock.lending.actual_due_date()
