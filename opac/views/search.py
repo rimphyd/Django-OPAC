@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from opac.models.masters import Book
+from opac.queries import BookSearchQuery
 
 
 class SearchView(ListView):
@@ -31,7 +31,7 @@ class SearchView(ListView):
 
     def get_queryset(self):
         words = self.request.GET['words'].split()
-        return Book.search(words)
+        return BookSearchQuery(words).query()
 
     def render_to_response(self, context, **response_kwargs):
         if not context['books']:

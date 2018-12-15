@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 
-from opac.models.masters import Book, Stock
+from opac.queries import BookQuery, BookStocksQuery
 
 
 class StockListView(ListView):
@@ -8,10 +8,10 @@ class StockListView(ListView):
 
     def get_queryset(self):
         book_id = self.kwargs['book_id']
-        return Stock.ordered_stocks(book_id)
+        return BookStocksQuery(book_id).query()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book_id = self.kwargs['book_id']
-        context['book'] = Book.objects.get(pk=book_id)
+        context['book'] = BookQuery(book_id).query()
         return context

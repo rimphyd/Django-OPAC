@@ -44,9 +44,3 @@ class Stock(TimeStampedModel):
 
     def is_reserved(self):
         return self.reservations.exists()
-
-    @staticmethod
-    def ordered_stocks(book_id):
-        return Stock.objects \
-            .filter(book_id=book_id) \
-            .order_by('library__id')
