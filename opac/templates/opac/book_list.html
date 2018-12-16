@@ -1,4 +1,5 @@
 {% extends 'opac/base.html' %}
+{% load filters %}
 
 {% block meta_title %}検索結果{% endblock %}
 
@@ -24,24 +25,8 @@
           {% for book in books %}
           <tr>
             <td><a href="{% url 'opac:stock_list' book.id %}">{{ book.name }}</a></td>
-            <td>
-              {% for author in book.authors.all %}
-              {% if not forloop.last %}
-              {{ author.name }},
-              {% else %}
-              {{ author.name }}
-              {% endif %}
-              {% endfor %}
-            </td>
-            <td>
-              {% for translator in book.translators.all %}
-              {% if not forloop.last %}
-              {{ translator.name }},
-              {% else %}
-              {{ translator.name }}
-              {% endif %}
-              {% endfor %}
-            </td>
+            <td>{{ book.authors.all|names:', ' }}</td>
+            <td>{{ book.translators.all|names:', ' }}</td>
             <td>{{ book.publisher.name }}</td>
             <td>{{ book.issue_date|default_if_none:'' }}</td>
           </tr>

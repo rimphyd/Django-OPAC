@@ -1,4 +1,5 @@
 {% extends 'opac/base.html' %}
+{% load filters %}
 
 {% block meta_title %}蔵書情報{% endblock %}
 
@@ -44,30 +45,8 @@
         </caption>
         <tbody>
           <tr><th>書名</th><td>{{ book.name }}</td></tr>
-          <tr>
-            <th>著者</th>
-            <td>
-              {% for author in book.authors.all %}
-              {% if not forloop.last %}
-              {{ author.name }},
-              {% else %}
-              {{ author.name }}
-              {% endif %}
-              {% endfor %}
-            </td>
-          </tr>
-          <tr>
-            <th>訳者</th>
-            <td>
-              {% for translator in book.translators.all %}
-              {% if not forloop.last %}
-              {{ translator.name }},
-              {% else %}
-              {{ translator.name }}
-              {% endif %}
-              {% endfor %}
-            </td>
-          </tr>
+          <tr><th>著者</th><td>{{ book.authors.all|names:', ' }}</td></tr>
+          <tr><th>訳者</th><td>{{ book.translators.all|names:', ' }}</td></tr>
           <tr><th>出版者</th><td>{{ book.publisher.name }}</td></tr>
           <tr><th>発行日</th><td>{{ book.issue_date|default_if_none:'' }}</td></tr>
           <tr><th>大きさ</th><td>{{ book.size|default_if_none:'' }}</td></tr>
