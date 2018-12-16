@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 from opac.models.masters.translator import Translator
 
@@ -14,9 +16,12 @@ class TranslatorAdmin(admin.ModelAdmin):
     get_translator_number.admin_order_field = 'id'
     get_translator_number.short_description = '訳者番号'
 
+    @mark_safe
     def get_translated_books(self, translator):
-        return ', '.join(book.name for book in translator.books.all()[:5]) \
-            or None
+        return '<br>'.join(
+                   escape(b.name) for b in translator.books.all()[:5]
+               ) \
+            or '-'
     get_translated_books.short_description = '訳書 (5冊まで)'
 
 

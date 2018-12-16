@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 from opac.models.masters.author import Author
 
@@ -14,9 +16,10 @@ class AuthorAdmin(admin.ModelAdmin):
     get_author_number.admin_order_field = 'id'
     get_author_number.short_description = '著者番号'
 
+    @mark_safe
     def get_authed_books(self, author):
-        return ', '.join(book.name for book in author.books.all()[:5]) \
-            or None
+        return '<br>'.join(escape(b.name) for b in author.books.all()[:5]) \
+            or '-'
     get_authed_books.short_description = '著書 (5冊まで)'
 
 
