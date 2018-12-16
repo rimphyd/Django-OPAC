@@ -24,11 +24,13 @@
             <td>
               {% if stock.is_lendable %}
               貸出可能
-              {% else %}
+              {% elif stock.is_lent %}
               貸出中 [{{ stock.lending.actual_due_date }}返却期限]
-                {% if stock.is_reserved %}
-                予約{{ stock.reservations.count }}人
-                {% endif %}
+              {% else %}
+              取置中 [{{ stock.holding.expiration_date }}取置期限]
+              {% endif %}
+              {% if stock.is_reserved %}
+              予約{{ stock.reservations.count }}人
               {% endif %}
             </td>
           </tr>
