@@ -30,7 +30,7 @@ class ReservationAdmin(admin.ModelAdmin):
 
     def get_book_name(self, reservation):
         return reservation.stock.book.name
-    get_book_name.admin_order_field = 'stock__book__id'
+    get_book_name.admin_order_field = 'stock__book__name'
     get_book_name.short_description = '書名'
 
     def get_reserved_at(self, reservation):
