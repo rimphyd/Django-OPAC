@@ -1,3 +1,6 @@
+from functools import reduce
+from operator import or_
+
 from django.db.models import Q
 
 from opac.models.masters import Book
@@ -8,17 +11,17 @@ class BookSearchQuery:
         self._words = words
 
     def query(self):
-        queryset = Book.objects.none()
-        for word in self._words:
-            books = Book.objects \
+        querysets = (
+            Book.objects
                 .filter(
                     Q(name__icontains=word) |
                     Q(authors__name__icontains=word) |
                     Q(translators__name__icontains=word) |
-                    Q(publisher__name__icontains=word)) \
+                    Q(publisher__name__icontains=word))
                 .distinct()
-            queryset = queryset.union(books)
-        return queryset.order_by('-issue_date')
+            for word in self._words
+        )
+        return reduce(or_, querysets).order_by('-issue_date')
 
 
 class BookQuery:
