@@ -9,7 +9,7 @@ insert Heroku URL here
 
 ## Installation
 ```shell
-$ conda env create --file environment.yaml
+$ pipenv install --dev && pipenv shell
 ```
 
 ## License
