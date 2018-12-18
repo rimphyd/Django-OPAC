@@ -45,7 +45,7 @@ class LendingAdmin(admin.ModelAdmin):
     get_book_name.short_description = '書名'
 
     def get_lent_at(self, lending):
-        return lending.created_at.date()
+        return timezone.localtime(lending.created_at).date()
     get_lent_at.admin_order_field = 'created_at'
     get_lent_at.short_description = '貸出日'
 

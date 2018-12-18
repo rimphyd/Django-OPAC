@@ -41,7 +41,7 @@ class HoldingAdmin(admin.ModelAdmin):
     get_book_name.short_description = '書名'
 
     def get_held_at(self, holding):
-        return holding.created_at.date()
+        return timezone.localtime(holding.created_at).date()
     get_held_at.admin_order_field = 'created_at'
     get_held_at.short_description = '取置日'
 
