@@ -1,6 +1,12 @@
-from django.contrib import admin
+from datetime import timedelta
 
-from opac.models.transactions.lending import Lending
+from django.contrib import admin, messages
+from django.db import Error
+from django.http import HttpResponseRedirect
+from django.utils import timezone
+
+from opac.admin.messages import AdminMessage, LendingAdminMessage
+from opac.models.transactions import Lending, Renewing
 
 
 class LendingAdmin(admin.ModelAdmin):
@@ -19,6 +25,7 @@ class LendingAdmin(admin.ModelAdmin):
     )
     search_fields = ('id', 'stock__id', 'stock__book__name', 'user__username')
     raw_id_fields = ('stock', 'user')
+    change_form_template = 'admin/transactions/lending_change_form.html'
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -60,6 +67,39 @@ class LendingAdmin(admin.ModelAdmin):
     def get_is_renewed(self, lending):
         return 'Yes' if lending.is_renewed() else 'No'
     get_is_renewed.short_description = '延長済み？'
+
+    def response_change(self, request, lending):
+        if '_renew' in request.POST:
+            self._renew(request, lending)
+            return HttpResponseRedirect('/admin/opac/lending')
+        return super().response_change(request, lending)
+
+    def _renew(self, request, lending):
+        if not lending.is_renewable():
+            reasons = self._get_cant_renew_reasons(lending)
+            for reason in reasons:
+                self.message_user(request, reason, level=messages.ERROR)
+            return
+
+        try:
+            Renewing.objects.create(
+                lending=lending,
+                due_date=timezone.localdate() + timedelta(days=14)
+            )
+        except Error:
+            # TODO ログを仕込む
+            self.message_user(
+                request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
+        else:
+            self.message_user(request, LendingAdminMessage.RENEWED)
+
+    def _get_cant_renew_reasons(self, lending):
+        reasons = []
+        if lending.is_renewed():
+            reasons.append(LendingAdminMessage.ALREADY_RENEWED)
+        if lending.stock.is_reserved():
+            reasons.append(LendingAdminMessage.RESERVATION_EXISTS)
+        return reasons
 
 
 admin.site.register(Lending, LendingAdmin)
