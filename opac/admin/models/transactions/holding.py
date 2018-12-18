@@ -1,6 +1,11 @@
-from django.contrib import admin
+from datetime import timedelta
 
-from opac.models.transactions.holding import Holding
+from django.contrib import admin, messages
+from django.db import Error, transaction
+from django.utils import timezone
+
+from opac.admin.messages import AdminMessage, HoldingAdminMessage
+from opac.models.transactions import Holding, Lending
 
 
 class HoldingAdmin(admin.ModelAdmin):
@@ -15,6 +20,7 @@ class HoldingAdmin(admin.ModelAdmin):
     )
     search_fields = ('id', 'stock__id', 'stock__book__name', 'user__username')
     raw_id_fields = ('stock', 'user')
+    actions = ('lend', )
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -44,6 +50,29 @@ class HoldingAdmin(admin.ModelAdmin):
     get_is_not_expired.admin_order_field = 'expiration_date'
     get_is_not_expired.boolean = True
     get_is_not_expired.short_description = '有効期限内？'
+
+    def lend(self, request, holdings):
+        try:
+            with transaction.atomic():
+                self._create_lendings(holdings)
+                holdings.delete()
+        except Error:
+            # TODO ログを仕込む
+            self.message_user(
+                request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
+        else:
+            self.message_user(request, HoldingAdminMessage.LENT)
+    lend.short_description = '選択された 取置 を貸出にする'
+
+    def _create_lendings(self, holdings):
+        Lending.objects.bulk_create(
+            Lending(
+                stock=h.stock,
+                user=h.user,
+                due_date=timezone.localdate() + timedelta(days=14)
+            )
+            for h in holdings
+        )
 
 
 admin.site.register(Holding, HoldingAdmin)
