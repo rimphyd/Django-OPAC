@@ -1,11 +1,9 @@
-from datetime import timedelta
-
 from django.contrib import admin, messages
-from django.db import Error, transaction
 from django.utils import timezone
 
 from opac.admin.messages import AdminMessage, LendingAdminMessage
-from opac.models.transactions import Holding, Lending, Renewing
+from opac.models.transactions import Lending
+from opac.services import LendingBackService, LendingRenewService, ServiceError
 
 
 class LendingAdmin(admin.ModelAdmin):
@@ -75,8 +73,9 @@ class LendingAdmin(admin.ModelAdmin):
             return
 
         try:
-            self._create_renewings(lendings)
-        except Error:
+            for lending in lendings:
+                LendingRenewService(lending).exec()
+        except ServiceError:
             # TODO ログを仕込む
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
@@ -92,47 +91,17 @@ class LendingAdmin(admin.ModelAdmin):
             reasons.append(LendingAdminMessage.RESERVATION_EXISTS)
         return reasons
 
-    def _create_renewings(self, lendings):
-        Renewing.objects.bulk_create(
-            Renewing(
-                lending=lending,
-                due_date=timezone.localdate() + timedelta(days=14)
-            )
-            for lending in lendings
-        )
-
     def back(self, request, lendings):
-        first_reservations = [
-            l.stock.reservations.order_by('created_at').first()
-            for l in lendings if l.stock.reservations.exists()
-        ]
         try:
-            with transaction.atomic():
-                self._create_holdings(first_reservations)
-                self._delete_instances(first_reservations)
-                lendings.delete()
-        except Error:
+            for lending in lendings:
+                LendingBackService(lending).exec()
+        except ServiceError:
             # TODO ログを仕込む
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:
-            # TODO メールを送る
             self.message_user(request, LendingAdminMessage.BACKED)
     back.short_description = '選択された 貸出 を返却する'
-
-    def _create_holdings(self, reservations):
-        Holding.objects.bulk_create(
-            Holding(
-                stock=reservation.stock,
-                user=reservation.user,
-                expiration_date=timezone.localdate() + timedelta(days=14)
-            )
-            for reservation in reservations
-        )
-
-    def _delete_instances(self, instances):
-        for instance in instances:
-            instance.delete()
 
 
 admin.site.register(Lending, LendingAdmin)

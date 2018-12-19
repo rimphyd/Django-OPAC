@@ -1,11 +1,10 @@
-from datetime import timedelta
-
 from django.contrib import admin, messages
-from django.db import Error, transaction
 from django.utils import timezone
 
 from opac.admin.messages import AdminMessage, HoldingAdminMessage
-from opac.models.transactions import Holding, Lending
+from opac.models.transactions import Holding
+from opac.services import ServiceError
+from opac.services.holding import HoldingLendService
 
 
 class HoldingAdmin(admin.ModelAdmin):
@@ -53,26 +52,15 @@ class HoldingAdmin(admin.ModelAdmin):
 
     def lend(self, request, holdings):
         try:
-            with transaction.atomic():
-                self._create_lendings(holdings)
-                holdings.delete()
-        except Error:
+            for holding in holdings:
+                HoldingLendService(holding).exec()
+        except ServiceError:
             # TODO ログを仕込む
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:
             self.message_user(request, HoldingAdminMessage.LENT)
     lend.short_description = '選択された 取置 を貸出にする'
-
-    def _create_lendings(self, holdings):
-        Lending.objects.bulk_create(
-            Lending(
-                stock=h.stock,
-                user=h.user,
-                due_date=timezone.localdate() + timedelta(days=14)
-            )
-            for h in holdings
-        )
 
 
 admin.site.register(Holding, HoldingAdmin)
