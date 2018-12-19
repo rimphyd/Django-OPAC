@@ -4,7 +4,7 @@ from django.utils import timezone
 from opac.admin.messages import AdminMessage, HoldingAdminMessage
 from opac.models.transactions import Holding
 from opac.services import ServiceError
-from opac.services.holding import HoldingLendService
+from opac.services.holding import HoldingCancelService, HoldingLendService
 
 
 class HoldingAdmin(admin.ModelAdmin):
@@ -19,7 +19,7 @@ class HoldingAdmin(admin.ModelAdmin):
     )
     search_fields = ('id', 'stock__id', 'stock__book__name', 'user__username')
     raw_id_fields = ('stock', 'user')
-    actions = ('lend', )
+    actions = ('lend', 'cancel')
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -61,6 +61,18 @@ class HoldingAdmin(admin.ModelAdmin):
         else:
             self.message_user(request, HoldingAdminMessage.LENT)
     lend.short_description = '選択された 取置 を貸出にする'
+
+    def cancel(self, request, holdings):
+        try:
+            for holding in holdings:
+                HoldingCancelService(holding).exec()
+        except ServiceError:
+            # TODO ログを仕込む
+            self.message_user(
+                request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
+        else:
+            self.message_user(request, HoldingAdminMessage.CANCELED)
+    cancel.short_description = '選択された 取置 を取り消す'
 
 
 admin.site.register(Holding, HoldingAdmin)
