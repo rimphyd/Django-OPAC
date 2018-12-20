@@ -24,7 +24,7 @@ class SearchView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         if 'words' not in request.GET:
-            return self.render_index(request)
+            return self.render_no_search_words(request)
         if request.GET['words'].split() == []:
             return self.render_no_search_words(request)
         return super().dispatch(request, *args, **kwargs)
