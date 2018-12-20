@@ -22,11 +22,3 @@ class BookSearchQuery:
             for word in self._words
         )
         return reduce(or_, querysets).order_by('-issue_date')
-
-
-class BookQuery:
-    def __init__(self, book_id):
-        self._book_id = book_id
-
-    def exec(self):
-        return Book.objects.get(pk=self._book_id)
