@@ -5,7 +5,7 @@ class BookStocksQuery:
     def __init__(self, book_id):
         self._book_id = book_id
 
-    def query(self):
+    def exec(self):
         return Stock.objects \
             .filter(book_id=self._book_id) \
             .order_by('library__id')

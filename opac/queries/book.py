@@ -10,7 +10,7 @@ class BookSearchQuery:
     def __init__(self, words):
         self._words = words
 
-    def query(self):
+    def exec(self):
         querysets = (
             Book.objects
                 .filter(
@@ -28,5 +28,5 @@ class BookQuery:
     def __init__(self, book_id):
         self._book_id = book_id
 
-    def query(self):
+    def exec(self):
         return Book.objects.get(pk=self._book_id)
