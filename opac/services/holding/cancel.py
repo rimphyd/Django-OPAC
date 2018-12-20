@@ -1,3 +1,4 @@
+from opac.mailers import HoldingCreatedMailer, MailerError
 from opac.queries import QueryError, HoldingCancelQuery
 from opac.services import ServiceError
 
@@ -22,9 +23,8 @@ class HoldingCancelService:
             取り消し処理でエラーが発生した場合。
         """
         try:
-            holding_created = HoldingCancelQuery(self._holding).exec()
-            if holding_created:
-                # TODO メールを送る
-                pass
-        except QueryError as e:
+            created_holding = HoldingCancelQuery(self._holding).exec()
+            if created_holding:
+                HoldingCreatedMailer(created_holding).exec()
+        except (MailerError, QueryError) as e:
             raise ServiceError(self.__class__, e)

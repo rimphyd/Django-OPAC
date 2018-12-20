@@ -1,3 +1,4 @@
+from opac.mailers import HoldingCreatedMailer, MailerError
 from opac.queries import LendingBackQuery, QueryError
 from opac.services.errors import ServiceError
 
@@ -22,9 +23,8 @@ class LendingBackService:
             返却処理やメール送信でエラーが発生した場合。
         """
         try:
-            holding_created = LendingBackQuery(self._lending).exec()
-            if holding_created:
-                # TODO メールを送る
-                pass
-        except QueryError as e:
+            created_holding = LendingBackQuery(self._lending).exec()
+            if created_holding:
+                HoldingCreatedMailer(created_holding).exec()
+        except (MailerError, QueryError) as e:
             raise ServiceError(self.__class__, e)

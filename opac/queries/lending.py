@@ -31,8 +31,11 @@ class LendingBackQuery:
 
         Returns
         -------
-        bool
-            最初の予約を取置に繰り上げた場合かどうか
+        取置を作成した場合
+            作成した取置
+
+        取置を作成しなかった場合
+            None
 
         Raises
         ------
@@ -41,9 +44,9 @@ class LendingBackQuery:
         """
         stock = self._lending.stock
         try:
-            holding_created = FirstReservationToHoldingQuery(stock).exec()
+            created_holding = FirstReservationToHoldingQuery(stock).exec()
             self._lending.delete()
         except Error as e:
             raise QueryError(self.__class__, self._lending, e)
         else:
-            return holding_created
+            return created_holding

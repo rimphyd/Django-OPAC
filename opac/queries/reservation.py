@@ -29,16 +29,18 @@ class FirstReservationToHoldingQuery:
 
         Returns
         -------
-        bool
-            最初の予約を取置に繰り上げたかどうか
+        取置を作成した場合
+            作成した取置
+
+        取置を作成しなかった場合
+            None
         """
         if self._reservation:
-            Holding.objects.create(
+            self._reservation.delete()
+            return Holding.objects.create(
                 stock=self._reservation.stock,
                 user=self._reservation.user,
                 expiration_date=timezone.localdate() + timedelta(days=14)
             )
-            self._reservation.delete()
-            return True
         else:
-            return False
+            return None

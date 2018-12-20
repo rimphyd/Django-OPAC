@@ -71,8 +71,11 @@ class HoldingCancelQuery:
 
         Returns
         -------
-        bool
-            最初の予約を取置に繰り上げたかどうか
+        取置を作成した場合
+            作成した取置
+
+        取置を作成しなかった場合
+            None
 
         Raises
         ------
@@ -82,8 +85,8 @@ class HoldingCancelQuery:
         stock = self._holding.stock
         try:
             self._holding.delete()
-            holding_created = FirstReservationToHoldingQuery(stock).exec()
+            created_holding = FirstReservationToHoldingQuery(stock).exec()
         except Error as e:
             raise QueryError(self.__class__, self._holding, e)
         else:
-            return holding_created
+            return created_holding
