@@ -32,4 +32,4 @@ class RenewingCreateQuery:
                 due_date=timezone.localdate() + timedelta(days=14)
             )
         except Error as e:
-            raise QueryError(self._lending, e)
+            raise QueryError(self.__class__, self._lending, e)

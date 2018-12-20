@@ -27,5 +27,4 @@ class HoldingCancelService:
                 # TODO メールを送る
                 pass
         except QueryError as e:
-            # TODO ログを仕込む
-            raise ServiceError(repr(e))
+            raise ServiceError(self.__class__, e)

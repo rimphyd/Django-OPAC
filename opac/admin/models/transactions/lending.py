@@ -1,9 +1,14 @@
+from logging import getLogger
+
+
 from django.contrib import admin, messages
 from django.utils import timezone
 
 from opac.admin.messages import AdminMessage, LendingAdminMessage
 from opac.models.transactions import Lending
 from opac.services import LendingBackService, LendingRenewService, ServiceError
+
+logger = getLogger(__name__)
 
 
 class LendingAdmin(admin.ModelAdmin):
@@ -75,8 +80,8 @@ class LendingAdmin(admin.ModelAdmin):
         try:
             for lending in lendings:
                 LendingRenewService(lending).exec()
-        except ServiceError:
-            # TODO ログを仕込む
+        except ServiceError as e:
+            logger.error('貸出データとエラー内容', e)
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:
@@ -95,8 +100,8 @@ class LendingAdmin(admin.ModelAdmin):
         try:
             for lending in lendings:
                 LendingBackService(lending).exec()
-        except ServiceError:
-            # TODO ログを仕込む
+        except ServiceError as e:
+            logger.error('貸出データとエラー内容', e)
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:

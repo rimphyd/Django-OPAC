@@ -44,7 +44,6 @@ class LendingBackQuery:
             holding_created = FirstReservationToHoldingQuery(stock).exec()
             self._lending.delete()
         except Error as e:
-            # TODO ログを仕込む
-            raise QueryError(self._lending, e)
+            raise QueryError(self.__class__, self._lending, e)
         else:
             return holding_created

@@ -24,5 +24,4 @@ class HoldingLendService:
         try:
             HoldingLendQuery(self._holding).exec()
         except QueryError as e:
-            # TODO ログを仕込む
-            raise ServiceError(repr(e))
+            raise ServiceError(self.__class__, e)

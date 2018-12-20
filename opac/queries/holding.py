@@ -41,7 +41,7 @@ class HoldingLendQuery:
             )
             self._holding.delete()
         except Error as e:
-            raise QueryError(self._holding, e)
+            raise QueryError(self.__class__, self._holding, e)
 
 
 class HoldingCancelQuery:
@@ -84,7 +84,6 @@ class HoldingCancelQuery:
             self._holding.delete()
             holding_created = FirstReservationToHoldingQuery(stock).exec()
         except Error as e:
-            # TODO ログを仕込む
-            raise QueryError(self._holding, e)
+            raise QueryError(self.__class__, self._holding, e)
         else:
             return holding_created
