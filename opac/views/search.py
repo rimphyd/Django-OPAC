@@ -31,7 +31,7 @@ class SearchView(ListView):
 
     def get_queryset(self):
         words = self.request.GET['words'].split()
-        return BookSearchQuery(words).query()
+        return BookSearchQuery(words).exec()
 
     def render_to_response(self, context, **response_kwargs):
         if not self.object_list:

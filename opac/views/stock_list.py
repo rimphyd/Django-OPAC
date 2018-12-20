@@ -8,10 +8,10 @@ class StockListView(ListView):
 
     def get_queryset(self):
         book_id = self.kwargs['book_id']
-        return BookStocksQuery(book_id).query()
+        return BookStocksQuery(book_id).exec()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book_id = self.kwargs['book_id']
-        context['book'] = BookQuery(book_id).query()
+        context['book'] = BookQuery(book_id).exec()
         return context
