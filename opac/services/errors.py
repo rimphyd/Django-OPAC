@@ -4,3 +4,11 @@ class ServiceError(Exception):
 
 class LendingAlreadyExistsError(ServiceError):
     pass
+
+
+class RenewingAlreadyExistsError(ServiceError):
+    pass
+
+
+class ReservationExistsError(ServiceError):
+    pass

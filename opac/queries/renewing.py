@@ -1,10 +1,8 @@
 from datetime import timedelta
 
-from django.db import Error
 from django.utils import timezone
 
 from opac.models.transactions import Renewing
-from opac.queries import QueryError
 
 
 class RenewingCreateQuery:
@@ -23,13 +21,12 @@ class RenewingCreateQuery:
 
         Raises
         ------
-        QueryError
-            クエリでエラーが発生した場合
+        IntegrityError
+            既に延長が存在する場合
+        Error
+            その他のエラーが発生した場合
         """
-        try:
-            Renewing.objects.create(
-                lending=self._lending,
-                due_date=timezone.localdate() + timedelta(days=14)
-            )
-        except Error as e:
-            raise QueryError(self.__class__, self._lending, e)
+        Renewing.objects.create(
+            lending=self._lending,
+            due_date=timezone.localdate() + timedelta(days=14)
+        )

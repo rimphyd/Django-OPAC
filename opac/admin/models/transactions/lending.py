@@ -7,6 +7,8 @@ from django.utils import timezone
 from opac.admin.messages import AdminMessage, LendingAdminMessage
 from opac.models.transactions import Lending
 from opac.services import LendingBackService, LendingRenewService, ServiceError
+from opac.services.errors import \
+    RenewingAlreadyExistsError, ReservationExistsError
 
 logger = getLogger(__name__)
 
@@ -71,30 +73,30 @@ class LendingAdmin(admin.ModelAdmin):
     get_is_renewed.short_description = '延長済み？'
 
     def renew(self, request, lendings):
-        if any(not l.is_renewable() for l in lendings):
-            reasons = self._get_cant_renew_reasons(lendings)
-            for reason in reasons:
-                self.message_user(request, reason, level=messages.ERROR)
-            return
-
         try:
             for lending in lendings:
                 LendingRenewService(lending).exec()
+        except RenewingAlreadyExistsError as e:
+            logger.warning('貸出の延長に失敗しました', e)
+            self.message_user(
+                request,
+                LendingAdminMessage.RENEWING_ALREADY_EXISTS,
+                level=messages.WARNING
+            )
+        except ReservationExistsError as e:
+            logger.warning('貸出の延長に失敗しました', e)
+            self.message_user(
+                request,
+                LendingAdminMessage.RESERVATION_EXISTS,
+                level=messages.WARNING
+            )
         except ServiceError as e:
-            logger.error('貸出データとエラー内容', e)
+            logger.exception('貸出の延長に失敗しました', e)
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:
             self.message_user(request, LendingAdminMessage.RENEWED)
     renew.short_description = '選択された 貸出 を延長する'
-
-    def _get_cant_renew_reasons(self, lendings):
-        reasons = []
-        if any(l.is_renewed() for l in lendings):
-            reasons.append(LendingAdminMessage.ALREADY_RENEWED)
-        if any(l.stock.is_reserved() for l in lendings):
-            reasons.append(LendingAdminMessage.RESERVATION_EXISTS)
-        return reasons
 
     def back(self, request, lendings):
         try:
