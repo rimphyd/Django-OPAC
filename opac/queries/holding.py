@@ -30,18 +30,17 @@ class HoldingLendQuery:
 
         Raises
         ------
-        QueryError
-            クエリでエラーが発生した場合
+        IntegrityError
+            既に貸出が存在していた場合
+        Error
+            その他のエラーが発生した場合
         """
-        try:
-            Lending.objects.create(
-                stock=self._holding.stock,
-                user=self._holding.user,
-                due_date=timezone.localdate() + timedelta(days=14)
-            )
-            self._holding.delete()
-        except Error as e:
-            raise QueryError(self.__class__, self._holding, e)
+        Lending.objects.create(
+            stock=self._holding.stock,
+            user=self._holding.user,
+            due_date=timezone.localdate() + timedelta(days=14)
+        )
+        self._holding.delete()
 
 
 class HoldingCancelQuery:

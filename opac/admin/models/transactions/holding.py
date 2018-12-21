@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from opac.admin.messages import AdminMessage, HoldingAdminMessage
 from opac.models.transactions import Holding
-from opac.services import ServiceError
+from opac.services import LendingAlreadyExistsError, ServiceError
 from opac.services.holding import HoldingCancelService, HoldingLendService
 
 logger = getLogger(__name__)
@@ -58,8 +58,15 @@ class HoldingAdmin(admin.ModelAdmin):
         try:
             for holding in holdings:
                 HoldingLendService(holding).exec()
+        except LendingAlreadyExistsError as e:
+            logger.warning('取置の貸出に失敗しました', e)
+            self.message_user(
+                request,
+                HoldingAdminMessage.LENDING_ALREADY_EXISTS,
+                level=messages.WARNING
+            )
         except ServiceError as e:
-            logger.error('取置データとエラー内容', e)
+            logger.exception('取置の貸出に失敗しました', e)
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:
