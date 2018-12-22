@@ -292,14 +292,6 @@
   }
 },
 {
-  "model": "sessions.session",
-  "pk": "bcyvpyk71yhvz4tkfawe961u2cp6jse3",
-  "fields": {
-    "session_data": "YTAxNzA0ODY5OTVhMzU3YzU1ZGY1NDU1OWU4MDZlMmE1MWUxZDFlNDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzNWMwODE5NDVjYmUxNjRhMzc4ZDFiOTdjNjVhNmRkYmJjZmE5Y2Y5In0=",
-    "expire_date": "2019-01-05T00:46:24.768Z"
-  }
-},
-{
   "model": "opac.user",
   "pk": 1,
   "fields": {
