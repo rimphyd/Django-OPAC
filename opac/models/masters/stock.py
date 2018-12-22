@@ -24,7 +24,7 @@ class Stock(TimeStampedModel):
     )
 
     def __str__(self):
-        return '蔵書番号{} : {}'.format(self.id, self.book.name)
+        return f'蔵書番号{self.id} : {self.book.name}'
 
     def is_lendable(self):
         return not self.is_lent() \

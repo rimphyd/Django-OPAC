@@ -35,7 +35,7 @@ class BookDetailViewStockListTest(TestCase):
         display_date = dateformat.format(expiration_date, 'Y年n月d日')
         response = self.client.get('/book/1/')
         self.assertContains(response, '取置中')
-        self.assertContains(response, '[{}取置期限]'.format(display_date))
+        self.assertContains(response, f'[{display_date}取置期限]')
         self.assertNotContains(response, '貸出中')
         self.assertNotContains(response, '予約')
 
@@ -52,7 +52,7 @@ class BookDetailViewStockListTest(TestCase):
         response = self.client.get('/book/1/')
         self.assertNotContains(response, '取置中')
         self.assertContains(response, '貸出中')
-        self.assertContains(response, '[{}返却期限]'.format(display_date))
+        self.assertContains(response, f'[{display_date}返却期限]')
         self.assertNotContains(response, '予約')
 
     def test_renewing(self):
@@ -73,7 +73,7 @@ class BookDetailViewStockListTest(TestCase):
         response = self.client.get('/book/1/')
         self.assertNotContains(response, '取置中')
         self.assertContains(response, '貸出中')
-        self.assertContains(response, '[{}返却期限]'.format(display_date))
+        self.assertContains(response, f'[{display_date}返却期限]')
         self.assertNotContains(response, '予約')
 
     def test_reservation(self):
@@ -97,7 +97,7 @@ class BookDetailViewStockListTest(TestCase):
         response = self.client.get('/book/1/')
         self.assertNotContains(response, '取置中')
         self.assertContains(response, '貸出中')
-        self.assertContains(response, '[{}返却期限]'.format(display_date))
+        self.assertContains(response, f'[{display_date}返却期限]')
         self.assertContains(response, '予約2人')
 
 

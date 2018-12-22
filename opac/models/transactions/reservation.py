@@ -25,7 +25,7 @@ class Reservation(TimeStampedModel):
     )
 
     def __str__(self):
-        return '{} : {}'.format(self.stock, self.user)
+        return f'{self.stock} : {self.user}'
 
     def order(self):
         return Reservation.objects \

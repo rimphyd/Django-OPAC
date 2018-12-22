@@ -28,7 +28,7 @@ class Holding(TimeStampedModel):
     )
 
     def __str__(self):
-        return '{} : {}'.format(self.stock, self.user)
+        return f'{self.stock} : {self.user}'
 
     def is_expired(self):
         return self.expiration_date < timezone.localdate()

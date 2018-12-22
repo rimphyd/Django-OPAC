@@ -28,7 +28,7 @@ class Lending(TimeStampedModel):
     )
 
     def __str__(self):
-        return '{} : {}'.format(self.stock, self.user)
+        return f'{self.stock} : {self.user}'
 
     def actual_due_date(self):
         return self.renewing.due_date if self.is_renewed() \
