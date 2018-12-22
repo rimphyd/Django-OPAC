@@ -9,7 +9,7 @@ from opac.models.transactions import Lending, Renewing, Reservation
 
 
 class LendingRenewServiceSuccessTests(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_create_renewing(self):
         lending = Lending.objects.create(
@@ -26,7 +26,7 @@ class LendingRenewServiceSuccessTests(TestCase):
 
 
 class LendingRenewServiceFailureTests(TransactionTestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_renewing_already_exists(self):
         lending = Lending.objects.create(

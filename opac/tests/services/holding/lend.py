@@ -8,7 +8,7 @@ from opac.services.holding import HoldingLendService
 
 
 class HoldingLendServiceSuccessTests(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_holding_and_lending_counts(self):
         stock = Stock.objects.get(pk=1)
@@ -54,7 +54,7 @@ class HoldingLendServiceSuccessTests(TestCase):
 
 
 class HoldingLendServiceFailureTests(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_lending_already_exists(self):
         stock = Stock.objects.get(pk=1)

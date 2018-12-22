@@ -8,7 +8,7 @@ from opac.services.holding import HoldingCancelService
 
 
 class HoldingCancelServiceSuccessTests(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_holding_count(self):
         stock = Stock.objects.get(pk=1)

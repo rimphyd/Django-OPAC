@@ -14,7 +14,7 @@ class BookDetailViewNotFoundTest(TestCase):
 
 
 class BookDetailViewStockListTest(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_all_lendable(self):
         response = self.client.get('/book/1/')
@@ -102,7 +102,7 @@ class BookDetailViewStockListTest(TestCase):
 
 
 class BookDetailViewBookDetailTest(TestCase):
-    fixtures = ['initial_data']
+    fixtures = ['masters_minimal']
 
     def test_book_detail(self):
         response = self.client.get('/book/2/')
