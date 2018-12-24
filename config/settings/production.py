@@ -9,8 +9,7 @@ DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# TODO EMAIL関係の設定を追加
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 SECURE_HSTS_PRELOAD = True
