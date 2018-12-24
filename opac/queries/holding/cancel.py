@@ -1,18 +1,18 @@
 from django.db import transaction
 
-from opac.queries.reservation import FirstReservationToHoldingQuery
+from opac.queries.stock import FirstReservationToHoldingQuery
 
 
-class LendingBackQuery:
-    """貸出の返却処理を行うクエリ。アトミックです。
+class HoldingCancelQuery:
+    """取置の取り消し処理を行うクエリ。アトミックです。
 
     Parameters
     ----------
-    lending
-        対象の貸出
+    holding
+        対象の取置
     """
-    def __init__(self, lending):
-        self._lending = lending
+    def __init__(self, holding):
+        self._holding = holding
 
     @transaction.atomic
     def exec(self):
@@ -21,12 +21,12 @@ class LendingBackQuery:
         Detail
         ------
         蔵書に予約が存在する場合
-            1. 貸出を削除する
+            1. 取置を削除する
             2. 最初の予約に対応する取置を作成する
             3. 最初の予約を削除する
 
         蔵書に予約が存在しない場合
-            1. 貸出を削除する
+            1. 取置を削除する
 
         Returns
         -------
@@ -43,6 +43,6 @@ class LendingBackQuery:
         QueryError
             その他のエラーが発生した場合
         """
-        stock = self._lending.stock
-        self._lending.delete()
+        stock = self._holding.stock
+        self._holding.delete()
         return FirstReservationToHoldingQuery(stock).exec()
