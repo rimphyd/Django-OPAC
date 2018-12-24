@@ -24,4 +24,6 @@ class BookSearchQuery:
                 .distinct()
             for word in self._words
         )
-        return reduce(or_, querysets).order_by('-issue_date')
+        return list(
+            reduce(or_, querysets).order_by('-issue_date')
+        )
