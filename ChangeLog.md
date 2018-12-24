@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Sort book list
 - WebAPI
 
+## [1.0.1] - 2018-12-24
 ### Changed
 - Improve performance
 
