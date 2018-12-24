@@ -13,6 +13,9 @@ class BookSearchQuery:
     def exec(self):
         querysets = (
             Book.objects
+                .select_related('publisher')
+                .prefetch_related('authors')
+                .prefetch_related('translators')
                 .filter(
                     Q(name__icontains=word) |
                     Q(authors__name__icontains=word) |
@@ -21,4 +24,6 @@ class BookSearchQuery:
                 .distinct()
             for word in self._words
         )
-        return reduce(or_, querysets).order_by('-issue_date')
+        return list(
+            reduce(or_, querysets).order_by('-issue_date')
+        )

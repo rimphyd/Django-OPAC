@@ -24,6 +24,13 @@ class RenewingAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
+    def get_queryset(self, request):
+        return (
+            Renewing.objects
+                    .select_related('lending__user')
+                    .select_related('lending__stock__book')
+        )
+
     def get_renewing_number(self, renewing):
         return renewing.id
     get_renewing_number.admin_order_field = 'id'

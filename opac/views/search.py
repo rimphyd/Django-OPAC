@@ -6,6 +6,7 @@ from opac.queries import BookSearchQuery
 
 
 class SearchView(ListView):
+    template_name = 'opac/book_list.html'
     context_object_name = 'books'
     paginate_by = 20
 
