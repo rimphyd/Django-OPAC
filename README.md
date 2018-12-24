@@ -2,14 +2,14 @@
 Django-OPAC is a simple OPAC by Django.
 
 ## Demo
-insert GIF here
+![demo](https://raw.github.com/wiki/Ryuichi-Sasaki/Django-OPAC/images/demo_v1.0.0.gif)
 
 ## Demo site
-insert Heroku URL here
+https://django-opac.herokuapp.com/
 
 ## Installation
 ```shell
-$ conda env create --file environment.yaml
+$ pipenv install --dev && pipenv shell
 ```
 
 ## License

@@ -1,0 +1,348 @@
+[
+{
+  "model": "opac.publisher",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T07:44:59.248Z",
+    "updated_at": "2018-12-10T07:44:59.248Z",
+    "name": "\u30aa\u30fc\u30e0\u793e",
+    "address": "\u6771\u4eac\u90fd\u5343\u4ee3\u7530\u533a\u795e\u7530\u9326\u753a3-1"
+  }
+},
+{
+  "model": "opac.publisher",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T07:45:25.603Z",
+    "updated_at": "2018-12-10T07:45:25.603Z",
+    "name": "\u7fd4\u6cf3\u793e",
+    "address": "\u6771\u4eac\u90fd\u65b0\u5bbf\u533a\u821f\u753a5"
+  }
+},
+{
+  "model": "opac.publisher",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T07:56:08.131Z",
+    "updated_at": "2018-12-10T07:56:08.131Z",
+    "name": "\u30aa\u30e9\u30a4\u30ea\u30fc\u30fb\u30b8\u30e3\u30d1\u30f3",
+    "address": "\u6771\u4eac\u90fd\u65b0\u5bbf\u533a\u56db\u8c37\u5742\u753a12\u756a22\u53f7 VORT\u56db\u8c37\u5742\u753a 1F"
+  }
+},
+{
+  "model": "opac.book",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T07:48:43.346Z",
+    "updated_at": "2018-12-15T06:36:51.394Z",
+    "name": "\u8a08\u7b97\u6a5f\u30d7\u30ed\u30b0\u30e9\u30e0\u306e\u69cb\u9020\u3068\u89e3\u91c8\u7b2c2\u7248",
+    "publisher": 2,
+    "issue_date": "2014-05-16",
+    "size": "B5",
+    "page": 432,
+    "isbn": "9784798135984"
+  }
+},
+{
+  "model": "opac.book",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T07:53:28.097Z",
+    "updated_at": "2018-12-15T06:37:00.950Z",
+    "name": "\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0Haskell",
+    "publisher": 1,
+    "issue_date": "2009-11-11",
+    "size": "A5",
+    "page": 232,
+    "isbn": "9784274067815"
+  }
+},
+{
+  "model": "opac.book",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T07:58:28.778Z",
+    "updated_at": "2018-12-15T07:20:00.299Z",
+    "name": "Fluent Python",
+    "publisher": 3,
+    "issue_date": "2017-10-07",
+    "size": null,
+    "page": 832,
+    "isbn": "9784873118178"
+  }
+},
+{
+  "model": "opac.author",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T07:48:14.258Z",
+    "updated_at": "2018-12-10T07:48:14.258Z",
+    "name": "Gerald Jay Sussman",
+    "books": [
+      1
+    ]
+  }
+},
+{
+  "model": "opac.author",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T07:48:22.465Z",
+    "updated_at": "2018-12-10T07:48:22.465Z",
+    "name": "Harold Abelson",
+    "books": [
+      1
+    ]
+  }
+},
+{
+  "model": "opac.author",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T07:48:29.986Z",
+    "updated_at": "2018-12-10T07:48:29.986Z",
+    "name": "Julie Sussman",
+    "books": [
+      1
+    ]
+  }
+},
+{
+  "model": "opac.author",
+  "pk": 4,
+  "fields": {
+    "created_at": "2018-12-10T07:53:13.545Z",
+    "updated_at": "2018-12-10T07:53:13.545Z",
+    "name": "Graham Hutton",
+    "books": [
+      2
+    ]
+  }
+},
+{
+  "model": "opac.author",
+  "pk": 5,
+  "fields": {
+    "created_at": "2018-12-10T07:57:40.433Z",
+    "updated_at": "2018-12-10T07:57:40.433Z",
+    "name": "Luciano Ramalho",
+    "books": [
+      3
+    ]
+  }
+},
+{
+  "model": "opac.library",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T08:02:04.379Z",
+    "updated_at": "2018-12-16T08:16:59.534Z",
+    "name": "\u672c\u9928",
+    "address": "\u672c\u753a1-1-1"
+  }
+},
+{
+  "model": "opac.library",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T08:02:12.377Z",
+    "updated_at": "2018-12-10T08:02:12.377Z",
+    "name": "\u5225\u99281",
+    "address": "\u5927\u5b571-2-3"
+  }
+},
+{
+  "model": "opac.library",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T08:02:21.813Z",
+    "updated_at": "2018-12-10T08:02:21.813Z",
+    "name": "\u5225\u99282",
+    "address": "\u5927\u5b572-3-4"
+  }
+},
+{
+  "model": "opac.library",
+  "pk": 4,
+  "fields": {
+    "created_at": "2018-12-10T08:02:29.048Z",
+    "updated_at": "2018-12-10T08:02:29.048Z",
+    "name": "\u5225\u99283",
+    "address": "\u5927\u5b573-4-5"
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T08:21:40.883Z",
+    "updated_at": "2018-12-10T08:21:40.883Z",
+    "book": 1,
+    "library": 1
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T08:21:48.042Z",
+    "updated_at": "2018-12-10T08:21:48.042Z",
+    "book": 1,
+    "library": 1
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T08:22:10.090Z",
+    "updated_at": "2018-12-10T08:22:10.090Z",
+    "book": 2,
+    "library": 1
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 4,
+  "fields": {
+    "created_at": "2018-12-10T08:22:15.834Z",
+    "updated_at": "2018-12-10T08:22:15.834Z",
+    "book": 2,
+    "library": 1
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 5,
+  "fields": {
+    "created_at": "2018-12-10T08:23:07.296Z",
+    "updated_at": "2018-12-10T08:23:07.296Z",
+    "book": 3,
+    "library": 1
+  }
+},
+{
+  "model": "opac.stock",
+  "pk": 6,
+  "fields": {
+    "created_at": "2018-12-10T08:23:12.163Z",
+    "updated_at": "2018-12-10T08:23:12.163Z",
+    "book": 3,
+    "library": 2
+  }
+},
+{
+  "model": "opac.translator",
+  "pk": 1,
+  "fields": {
+    "created_at": "2018-12-10T07:48:40.253Z",
+    "updated_at": "2018-12-15T07:24:57.155Z",
+    "name": "\u548c\u7530\u82f1\u4e00",
+    "books": [
+      1
+    ]
+  }
+},
+{
+  "model": "opac.translator",
+  "pk": 2,
+  "fields": {
+    "created_at": "2018-12-10T07:53:24.538Z",
+    "updated_at": "2018-12-15T07:25:00.680Z",
+    "name": "\u5c71\u672c\u548c\u5f66",
+    "books": [
+      2
+    ]
+  }
+},
+{
+  "model": "opac.translator",
+  "pk": 3,
+  "fields": {
+    "created_at": "2018-12-10T07:58:03.757Z",
+    "updated_at": "2018-12-15T07:25:04.209Z",
+    "name": "\u8c4a\u6ca2\u8061",
+    "books": [
+      3
+    ]
+  }
+},
+{
+  "model": "opac.translator",
+  "pk": 4,
+  "fields": {
+    "created_at": "2018-12-10T07:58:15.763Z",
+    "updated_at": "2018-12-15T07:25:08.653Z",
+    "name": "\u6851\u4e95\u535a\u4e4b",
+    "books": [
+      3
+    ]
+  }
+},
+{
+  "model": "opac.translator",
+  "pk": 5,
+  "fields": {
+    "created_at": "2018-12-10T07:58:26.096Z",
+    "updated_at": "2018-12-15T07:25:12.461Z",
+    "name": "\u68b6\u539f\u73b2\u5b50",
+    "books": [
+      3
+    ]
+  }
+},
+{
+  "model": "opac.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$nnEU3smDHQFD$6t0VaQ3mHBMfdNWH9nzjh/kCTrFhxa0Uc+qW4axWDvc=",
+    "last_login": "2018-12-22T00:46:24.765Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-10T07:43:16.419Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "opac.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$NA3P6THyGeZK$lBLfRvUxiWaDsDIFrYIKdQiDDswdeaU4GpMI9pKyBg0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ryuichi",
+    "first_name": "\u4f50\u3005\u6728",
+    "last_name": "\u9f8d\u4e00",
+    "email": "ryuichisan@piyopiyo.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2018-12-10T07:59:29Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "opac.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$zMOKSJs5LZcS$FN7MPgLMymOxpDrUZ9+4RqKTk6dzur9u9Di0aq0qkzQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "hogenuma",
+    "first_name": "\u307b\u3052\u306c\u307e",
+    "last_name": "\u307b\u3052\u304a",
+    "email": "hoge@numa.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2018-12-10T08:00:12Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

@@ -1,0 +1,59 @@
+{% load i18n static %}
+{% get_current_language as LANGUAGE_CODE %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
+<head>
+  <title>{% block meta_title %}{% endblock %} | Django-OPAC</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="{% static 'opac/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'opac/css/bootstrap.min.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body style="overflow-y: scroll;">
+  <header class="py-3">
+    <div class="container">
+      <h1>
+        <a href="{% url 'opac:index' %}"
+           class="text-body font-weight-light"
+           style="text-decoration: none">
+          Django-OPAC
+        </a>
+      </h1>
+    </div>
+  </header>
+
+  <main class="py-5 bg-light">
+    <div class="container">
+      {% if messages %}
+      <div class="container">
+        <div class="row">
+          <div class="col-12 px-0">
+            <div class="messages">
+              {% for message in messages %}
+              <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="py-5 text-center text-muted">
+    <div class="container">
+      <p class="mb-0">&copy; 2018 Ryuichi Sasaki</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'opac/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'opac/js/bootstrap.bundle.min.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

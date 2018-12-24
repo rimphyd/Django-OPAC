@@ -1,0 +1,44 @@
+{% extends 'opac/base.html' %}
+{% load filters %}
+
+{% block meta_title %}検索結果{% endblock %}
+
+{% block content %}
+      <p class="mb-0">該当件数：{{ paginator.count }}件</p>
+      <p style="font-size: 0.8rem;">({{ request.GET.words }})</p>
+
+      {% if is_paginated %}
+      {% include 'opac/paginations/pagination.html' %}
+      {% endif %}
+
+      <table class="table table-hover table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th style="width: 30%">書名</th>
+            <th style="width: 20%">著者</th>
+            <th style="width: 20%">訳者</th>
+            <th style="width: 15%">出版者</th>
+            <th style="width: 15%">発行日</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr>
+            <td><a href="{% url 'opac:book_detail' book.id %}">{{ book.name }}</a></td>
+            <td>{{ book.authors.all|names:', ' }}</td>
+            <td>{{ book.translators.all|names:', ' }}</td>
+            <td>{{ book.publisher.name }}</td>
+            <td>{{ book.issue_date|default_if_none:'' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if is_paginated %}
+      {% include 'opac/paginations/pagination.html' %}
+      {% endif %}
+
+      <div class="mt-5">
+        <a href="{% url 'opac:index' %}">検索へ戻る</a>
+      </div>
+{% endblock %}

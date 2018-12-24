@@ -1,0 +1,59 @@
+{% extends 'opac/base.html' %}
+{% load filters %}
+
+{% block meta_title %}蔵書情報{% endblock %}
+
+{% block content %}
+      <h2 class="text-center font-weight-light pt-4 pb-5">{{ book.name }}</h2>
+
+      <table class="table table-sm table-bordered table-hover mb-5">
+        <caption class="text-center" style="caption-side: top; font-size: 1.2rem;">
+          所蔵情報
+        </caption>
+        <thead class="thead-light">
+          <tr>
+            <th>所蔵場所</th>
+            <th>蔵書番号</th>
+            <th>状態</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stock in stocks %}
+          <tr>
+            <td>{{ stock.library }}</td>
+            <td>{{ stock.id }}</td>
+            <td>
+              {% if stock.is_lendable %}
+              貸出可能
+              {% elif stock.is_lent %}
+              貸出中 [{{ stock.lending.actual_due_date }}返却期限]
+              {% else %}
+              取置中 [{{ stock.holding.expiration_date }}取置期限]
+              {% endif %}
+              {% if stock.is_reserved %}
+              予約{{ stock.reservations.count }}人
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <table class="table table-sm mb-5">
+        <caption class="text-center" style="caption-side: top; font-size: 1.2rem;">
+          書籍詳細
+        </caption>
+        <tbody>
+          <tr><th>書名</th><td>{{ book.name }}</td></tr>
+          <tr><th>著者</th><td>{{ book.authors.all|names:', ' }}</td></tr>
+          <tr><th>訳者</th><td>{{ book.translators.all|names:', ' }}</td></tr>
+          <tr><th>出版者</th><td>{{ book.publisher.name }}</td></tr>
+          <tr><th>発行日</th><td>{{ book.issue_date|default_if_none:'' }}</td></tr>
+          <tr><th>大きさ</th><td>{{ book.size|default_if_none:'' }}</td></tr>
+          <tr><th>ページ</th><td>{{ book.page|default_if_none:'' }}</td></tr>
+          <tr><th>ISBN</th><td>{{ book.isbn|default_if_none:'' }}</td></tr>
+        </tbody>
+      </table>
+
+      <a href="javascript:void(0);" onclick="window.history.back();">検索結果へ戻る</a>
+{% endblock %}
