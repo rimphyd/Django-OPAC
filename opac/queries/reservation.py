@@ -1,8 +1,10 @@
 from datetime import timedelta
 
+from django.db import Error, IntegrityError
 from django.utils import timezone
 
 from opac.models.transactions import Holding
+from opac.queries.errors import AlreadyExistsError, QueryError
 
 
 class FirstReservationToHoldingQuery:
@@ -34,13 +36,25 @@ class FirstReservationToHoldingQuery:
 
         取置を作成しなかった場合
             None
+
+        Raises
+        ------
+        AlreadyExistsError
+            最初の予約に対応する取置が既に存在していた場合
+        QueryError
+            その他のエラーが発生した場合
         """
-        if self._reservation:
+        if not self._reservation:
+            return None
+
+        try:
             self._reservation.delete()
             return Holding.objects.create(
                 stock=self._reservation.stock,
                 user=self._reservation.user,
                 expiration_date=timezone.localdate() + timedelta(days=14)
             )
-        else:
-            return None
+        except IntegrityError as e:
+            raise AlreadyExistsError(self._reservation, e)
+        except Error as e:
+            raise QueryError(self._reservation, e)

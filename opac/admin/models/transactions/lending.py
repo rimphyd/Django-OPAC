@@ -7,8 +7,11 @@ from django.utils import timezone
 from opac.admin.messages import AdminMessage, LendingAdminMessage
 from opac.models.transactions import Lending
 from opac.services import LendingBackService, LendingRenewService, ServiceError
-from opac.services.errors import \
-    RenewingAlreadyExistsError, ReservationExistsError
+from opac.services.errors import (
+    FirstReservationHoldingAlreadyExistsError,
+    RenewingAlreadyExistsError,
+    ReservationExistsError
+)
 
 logger = getLogger(__name__)
 
@@ -102,8 +105,14 @@ class LendingAdmin(admin.ModelAdmin):
         try:
             for lending in lendings:
                 LendingBackService(lending).exec()
+        except FirstReservationHoldingAlreadyExistsError as e:
+            logger.exception('貸出の返却に失敗しました', e)
+            self.message_user(
+                request,
+                LendingAdminMessage.FIRST_RESERVATION_HOLDING_ALREADY_EXISTS,
+                level=messages.WARNING)
         except ServiceError as e:
-            logger.error('貸出データとエラー内容', e)
+            logger.exception('貸出の返却に失敗しました', e)
             self.message_user(
                 request, AdminMessage.ERROR_OCCURRED, level=messages.ERROR)
         else:

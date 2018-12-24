@@ -1,6 +1,8 @@
 from opac.mailers import HoldingCreatedMailer, MailerError
 from opac.queries import QueryError, HoldingCancelQuery
-from opac.services import ServiceError
+from opac.queries.errors import AlreadyExistsError
+from opac.services import \
+    FirstReservationHoldingAlreadyExistsError, ServiceError
 
 
 class HoldingCancelService:
@@ -26,5 +28,7 @@ class HoldingCancelService:
             created_holding = HoldingCancelQuery(self._holding).exec()
             if created_holding:
                 HoldingCreatedMailer(created_holding).exec()
+        except AlreadyExistsError as e:
+            raise FirstReservationHoldingAlreadyExistsError(e)
         except (MailerError, QueryError) as e:
-            raise ServiceError(self.__class__, e)
+            raise ServiceError(e)

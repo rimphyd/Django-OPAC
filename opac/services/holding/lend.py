@@ -1,6 +1,5 @@
-from django.db import Error, IntegrityError
-
 from opac.queries import HoldingLendQuery
+from opac.queries.errors import AlreadyExistsError, QueryError
 from opac.services import LendingAlreadyExistsError, ServiceError
 
 
@@ -27,7 +26,7 @@ class HoldingLendService:
         """
         try:
             HoldingLendQuery(self._holding).exec()
-        except IntegrityError as e:
-            raise LendingAlreadyExistsError(self._holding, e)
-        except Error as e:
-            raise ServiceError(self._holding, e)
+        except AlreadyExistsError as e:
+            raise LendingAlreadyExistsError(e)
+        except QueryError as e:
+            raise ServiceError(e)

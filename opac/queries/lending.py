@@ -1,6 +1,5 @@
-from django.db import Error, transaction
+from django.db import transaction
 
-from opac.queries import QueryError
 from opac.queries.reservation import FirstReservationToHoldingQuery
 
 
@@ -22,9 +21,9 @@ class LendingBackQuery:
         Detail
         ------
         蔵書に予約が存在する場合
-            1. 最初の予約に対応する取置を作成する
-            2. 最初の予約を削除する
-            3. 貸出を削除する
+            1. 貸出を削除する
+            2. 最初の予約に対応する取置を作成する
+            3. 最初の予約を削除する
 
         蔵書に予約が存在しない場合
             1. 貸出を削除する
@@ -39,14 +38,11 @@ class LendingBackQuery:
 
         Raises
         ------
+        AlreadyExistsError
+            最初の予約に対応する取置が既に存在していた場合
         QueryError
-            クエリでエラーが発生した場合
+            その他のエラーが発生した場合
         """
         stock = self._lending.stock
-        try:
-            created_holding = FirstReservationToHoldingQuery(stock).exec()
-            self._lending.delete()
-        except Error as e:
-            raise QueryError(self.__class__, self._lending, e)
-        else:
-            return created_holding
+        self._lending.delete()
+        return FirstReservationToHoldingQuery(stock).exec()

@@ -1,6 +1,5 @@
-from django.db import Error, IntegrityError
-
 from opac.queries import RenewingCreateQuery
+from opac.queries.errors import AlreadyExistsError, QueryError
 from opac.services.errors import \
     RenewingAlreadyExistsError, ReservationExistsError, ServiceError
 
@@ -32,7 +31,7 @@ class LendingRenewService:
             raise ReservationExistsError(self._lending)
         try:
             RenewingCreateQuery(self._lending).exec()
-        except IntegrityError as e:
-            raise RenewingAlreadyExistsError(self._lending, e)
-        except Error as e:
-            raise ServiceError(self._lending, e)
+        except AlreadyExistsError as e:
+            raise RenewingAlreadyExistsError(e)
+        except QueryError as e:
+            raise ServiceError(e)

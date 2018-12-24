@@ -12,3 +12,7 @@ class RenewingAlreadyExistsError(ServiceError):
 
 class ReservationExistsError(ServiceError):
     pass
+
+
+class FirstReservationHoldingAlreadyExistsError(ServiceError):
+    pass

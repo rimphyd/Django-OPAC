@@ -1,6 +1,8 @@
 from opac.mailers import HoldingCreatedMailer, MailerError
 from opac.queries import LendingBackQuery, QueryError
-from opac.services.errors import ServiceError
+from opac.queries.errors import AlreadyExistsError
+from opac.services.errors import \
+    FirstReservationHoldingAlreadyExistsError, ServiceError
 
 
 class LendingBackService:
@@ -26,5 +28,7 @@ class LendingBackService:
             created_holding = LendingBackQuery(self._lending).exec()
             if created_holding:
                 HoldingCreatedMailer(created_holding).exec()
+        except AlreadyExistsError as e:
+            raise FirstReservationHoldingAlreadyExistsError(e)
         except (MailerError, QueryError) as e:
-            raise ServiceError(self.__class__, e)
+            raise ServiceError(e)
