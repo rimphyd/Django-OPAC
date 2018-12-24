@@ -32,6 +32,14 @@ class BookAdmin(admin.ModelAdmin):
     raw_id_fields = ('publisher', )
     inlines = (AuthorsInline, TranslatorsInline)
 
+    def get_queryset(self, request):
+        return (
+            Book.objects
+                .select_related('publisher')
+                .prefetch_related('authors')
+                .prefetch_related('translators')
+        )
+
     def get_book_number(self, book):
         return book.id
     get_book_number.admin_order_field = 'id'
