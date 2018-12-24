@@ -11,6 +11,9 @@ class TranslatorAdmin(admin.ModelAdmin):
     search_fields = ('name', )
     exclude = ('books', )
 
+    def get_queryset(self, request):
+        return Translator.objects.prefetch_related('books')
+
     def get_translator_number(self, translator):
         return translator.id
     get_translator_number.admin_order_field = 'id'

@@ -37,6 +37,13 @@ class LendingAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
+    def get_queryset(self, request):
+        return (
+            Lending.objects
+                   .prefetch_related('renewing')
+                   .prefetch_related('stock__reservations')
+        )
+
     def get_lending_number(self, lending):
         return lending.id
     get_lending_number.admin_order_field = 'id'

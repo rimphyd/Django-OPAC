@@ -19,11 +19,16 @@ class StockAdmin(admin.ModelAdmin):
     raw_id_fields = ('book', )
 
     def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.annotate(
-            _reservations_count=Count('reservations')
+        return (
+            Stock.objects
+                 .select_related('book')
+                 .select_related('library')
+                 .select_related('lending')
+                 .select_related('lending__renewing')
+                 .select_related('holding')
+                 .prefetch_related('reservations')
+                 .annotate(_reservations_count=Count('reservations'))
         )
-        return queryset
 
     def get_readonly_fields(self, request, obj=None):
         return ('book', ) if obj \
