@@ -11,15 +11,38 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body style="overflow-y: scroll;">
-  <header class="py-3">
+  <header>
     <div class="container">
-      <h1>
-        <a href="{% url 'opac:index' %}"
-           class="text-body font-weight-light"
-           style="text-decoration: none">
+      <nav class="navbar navbar-expand navbar-light px-0 py-2">
+        <a class="navbar-brand font-weight-light" style="font-size: 2.6rem;" href="{% url 'opac:index' %}">
           Django-OPAC
         </a>
-      </h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-dark" href="#" id="userMenu"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ user.username }}
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                <a class="dropdown-item" href="#">マイページ</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout' %}">ログアウト</a>
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">ログイン</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
     </div>
   </header>
 
