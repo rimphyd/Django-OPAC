@@ -1,5 +1,5 @@
 # Django-OPAC
-Django-OPAC is a simple OPAC by Django.
+Django-OPAC is a simple OPAC by Django. Test
 
 ## Demo
 ![demo](https://raw.github.com/wiki/Ryuichi-Sasaki/Django-OPAC/images/demo_v1.0.0.gif)
